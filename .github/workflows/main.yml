@@ -1,0 +1,47 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Automated Programmatic SEO Content Engine
+# Runs every day at 06:00 AM UTC and can also be triggered manually.
+# Fully integrated with Shivam's configured automation script.
+# ─────────────────────────────────────────────────────────────────────────────
+
+name: Daily SEO Blog Publisher
+
+on:
+  # ── Scheduled trigger: every day at 06:00 UTC ─────────────────────────────
+  schedule:
+    - cron: "0 6 * * *"   # Minute=0, Hour=6 (Roz subah khud chalega)
+
+  # ── Manual trigger: run instantly from the Actions tab ────────────────────
+  workflow_dispatch:
+
+jobs:
+  publish-post:
+    name: Generate & Publish Blog Post
+    runs-on: ubuntu-latest
+
+    # Give the GITHUB_TOKEN permission to write to the repository contents
+    permissions:
+      contents: write
+
+    steps:
+      # ── 1. Check out the repository ───────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── 2. Set up Python ──────────────────────────────────────────────────
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # ── 3. Install Python dependencies ────────────────────────────────────
+      # Yeh tools bot ko run karne ke liye zaruri hain
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install gspread oauth2client google-genai PyGithub
+
+      # ── 4. Run the automation script ──────────────────────────────────────
+      # Isme humne secrets hata diye hain kyunki keys ab direct script ke andar hain
+      - name: Run SEO automation script
+        run: python automation.py
