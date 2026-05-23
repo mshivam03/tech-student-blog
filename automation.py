@@ -176,7 +176,7 @@ def generate_article(keyword: str, category: str) -> str:
     log.info("Sending prompt to Gemini (model: gemini-2.0-flash) ...")
 
     response = client.models.generate_content(
-        model="gemini-2.0-flash",
+        model="gemini-2.5-flash",
         contents=prompt,
     )
 
