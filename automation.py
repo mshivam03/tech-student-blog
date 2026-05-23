@@ -30,7 +30,7 @@ log = logging.getLogger(__name__)
 
 
 # ── Configuration (all values come from GitHub Actions Secrets / env vars) ───
-GEMINI_API_KEY        = "AIzaSyBKzz7Zt34tUZOJYkESJ5oXl-c792QCD60"
+GEMINI_API_KEY        = os.environ.get("AIzaSyB0xsh4ZKizWsg98w2D-RxW_gMghBPAFHs")
 GITHUB_TOKEN          = "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"
 GITHUB_REPO           = "shivamkumar/tech-student-blog"
 GOOGLE_SHEET_NAME     = "TechBlogData"
@@ -173,7 +173,7 @@ def generate_article(keyword: str, category: str) -> str:
     client = genai.Client(api_key=GEMINI_API_KEY)
 
     prompt = build_prompt(keyword, category)
-    log.info("Sending prompt to Gemini (model: gemini-2.0-flash) ...")
+    log.info("Sending prompt to Gemini (model: gemini-2.5-flash) ...")
 
     response = client.models.generate_content(
         model="gemini-2.5-flash",
