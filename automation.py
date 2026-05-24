@@ -18,12 +18,14 @@ logging.basicConfig(
 log = logging.getLogger(__name__)
 
 # ==============================================================================
-# ── Configuration (SAFE WAY: All values come securely from GitHub Secrets) ───
+# ── Configuration (SAFE WAY: Fixed Path & Secure GitHub Secrets) ──────────────
 # ==============================================================================
 GOOGLE_SHEET_NAME     = "TechBlogData"
-GITHUB_REPO_PATH      = os.environ.get("GITHUB_REPOSITORY") 
 
-# Direct environment variable mappings from GitHub Actions secrets
+# 🛠️ FIXED: Automatic variable hatakar direct aapka correct repo path set kar diya hai
+GITHUB_REPO_PATH      = "mshivam03/tech-student-blog"
+
+# Environment variables mappings from GitHub Actions secrets
 GEMINI_API_KEY        = os.environ.get("GEMINI_API_KEY")
 GITHUB_TOKEN          = os.environ.get("GITHUB_TOKEN")
 GOOGLE_CREDENTIALS    = os.environ.get("GOOGLE_CREDENTIALS")
@@ -94,7 +96,6 @@ def main():
 
     try:
         log.info("Authenticating with Google Sheets API ...")
-        # Yahan humne perfect matching function call set kar diya hai
         sheets_client = get_google_sheets_client()
         log.info(f"Opening Google Sheet: '{GOOGLE_SHEET_NAME}' ...")
         sheet = sheets_client.open(GOOGLE_SHEET_NAME).sheet1
@@ -142,10 +143,11 @@ layout: post
     file_path = f"_posts/{file_name}"
 
     try:
-        log.info(f"Pushing '{file_name}' to GitHub Repository via PyGithub...")
+        log.info(f"Pushing '{file_path}' directly to branch 'main'...")
         g = Github(GITHUB_TOKEN)
         repo = g.get_repo(GITHUB_REPO_PATH)
         
+        # 🛠️ FIXED: Force push handling explicitly targetting the 'main' branch
         repo.create_file(
             path=file_path,
             message=f"Auto-published blog post: {keyword}",
