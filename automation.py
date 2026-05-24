@@ -98,17 +98,21 @@ CATEGORY_PROMPTS: dict[str, str] = {
 }
 
 
-def get_sheet_client() -> gspread.Client:
-    """Authenticate with Google Sheets using service-account credentials."""
-    log.info("Authenticating with Google Sheets API ...")
-    scope = [
-        "https://spreadsheets.google.com/feeds",
-        "https://www.googleapis.com/auth/drive",
-    ]
-    sa_info = json.loads(GCLOUD_SA_JSON)
-    creds = ServiceAccountCredentials.from_json_keyfile_dict(sa_info, scope)
+
+def get_google_sheets_client():
+    """Google Sheets API authentication function using robust raw credentials parsing"""
+    scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+    
+    try:
+        # GitHub Secrets ke backslash strings ko escape-safe banane ke liye filter
+        safe_credentials = GOOGLE_CREDENTIALS.replace('\n', '\\n')
+        creds_info = json.loads(safe_credentials, strict=False)
+    except Exception as e:
+        # Fallback agar text mein double slashes pehle se lag gaye hon
+        creds_info = json.loads(GOOGLE_CREDENTIALS, strict=False)
+        
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_info, scope)
     client = gspread.authorize(creds)
-    log.info("Google Sheets authentication successful.")
     return client
 
 
