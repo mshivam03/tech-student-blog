@@ -247,7 +247,7 @@ def main() -> None:
         log.error("❌ Critical Secrets are missing in GitHub Actions environment variables!")
         return
 
-    sheet_client = get_sheet_client()
+    sheets_client = get_sheets_client()
     result = fetch_pending_row(sheet_client)
 
     if result is None:
