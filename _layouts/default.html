@@ -1,413 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Engineering Tech Insight — Deep-dive tech reviews and analysis by Shivam Kumar, CSE student at LPU." />
-  <meta property="og:title" content="{{ page.title | default: 'Engineering Tech Insight' }}" />
-  <meta property="og:description" content="Deep-dive tech reviews and analysis by Shivam Kumar, CSE student at LPU." />
-  <meta property="og:type" content="website" />
-  <title>{% if page.title %}{{ page.title }} — {% endif %}Engineering Tech Insight</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page.title }} | Shivam Kumar - Tech Blog</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --accent: #2563eb; /* Modern Blue */
+            --accent-hover: #1d4ed8;
+            --card-bg: #f9fafb;
+            --border-color: #e5e7eb;
+            --max-width: 850px;
+        }
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+        /* --- Basic Reset --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, sans-serif; background-color: var(--bg-color); color: var(--text-main); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+        a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
 
-  <style>
-    /* ── Core Tokens & Responsive Structure ─────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        /* --- Layout Container --- */
+        .container { max-width: var(--max-width); margin: 0 auto; padding: 0 25px; }
 
-    :root {
-      --bg-void:      #020202;
-      --bg-base:      #0a0a0a;
-      --bg-raised:    #121212;
-      --bg-overlay:   #1a1a1a;
-      --border-dim:   rgba(255,255,255,0.05);
-      --border-mid:   rgba(255,255,255,0.12);
-      --text-primary: #f5f5f7;
-      --text-secondary:#9e9e13;
-      --text-muted:    #6e6e73;
-      --accent-blue:  #2997ff;
-      --accent-purple:#a153ff;
-      --accent-amber: #f5a623;
-      --font-sans:    'Plus Jakarta Sans', -apple-system, sans-serif;
-      --font-mono:    'JetBrains Mono', monospace;
-      --max-w:        1140px;
-    }
+        /* --- Header / Navigation --- */
+        header { border-bottom: 1px solid var(--border-color); padding: 20px 0; background: rgba(255, 255, 255, 0.95); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(5px); }
+        .nav-content { display: flex; justify-content: space-between; align-items: center; }
+        .site-logo { font-size: 1.4rem; font-weight: 800; color: var(--text-main); letter-spacing: -1px; }
+        .site-logo span { color: var(--accent); }
+        .nav-links { display: flex; gap: 25px; list-style: none; font-weight: 600; font-size: 0.95rem; color: var(--text-muted); }
+        .nav-links a:hover { color: var(--accent); }
 
-    html { scroll-behavior: smooth; background: var(--bg-void); }
+        /* --- Hero Section (Homepage Only) --- */
+        .hero { padding: 80px 0 60px 0; text-align: center; border-bottom: 1px solid var(--border-color); background-color: var(--card-bg); }
+        .hero-title { font-size: 3.2rem; font-weight: 800; letter-spacing: -2px; line-height: 1.1; margin-bottom: 20px; }
+        .hero-title span { background: linear-gradient(120deg, #2563eb, #9333ea); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-subtitle { font-size: 1.2rem; color: var(--text-muted); max-width: 600px; margin: 0 auto 30px auto; }
+        .hero-meta { font-size: 0.9rem; color: var(--text-main); font-weight: 600; display: flex; gap: 15px; justify-content: center; opacity: 0.8; }
 
-    body {
-      background: var(--bg-void);
-      color: var(--text-primary);
-      font-family: var(--font-sans);
-      font-size: 16px;
-      line-height: 1.625;
-      -webkit-font-smoothing: antialiased;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+        /* --- Main Content Area --- */
+        main { padding: 60px 0; }
 
-    /* ── Base Layout Container ────────────────────────────────────────── */
-    .container {
-      width: 100%;
-      max-width: var(--max-w);
-      margin: 0 auto;
-      padding: 0 1.5rem;
-    }
+        /* --- Typography for Posts --- */
+        .post-content h1 { font-size: 2.8rem; font-weight: 800; letter-spacing: -1.5px; margin-bottom: 10px; line-height: 1.2; }
+        .post-date-meta { font-size: 1rem; color: var(--text-muted); margin-bottom: 40px; font-weight: 500; display: block; }
+        .post-content h2 { font-size: 1.8rem; font-weight: 700; margin: 50px 0 20px 0; letter-spacing: -0.5px; }
+        .post-content p { font-size: 1.1rem; margin-bottom: 25px; color: #374151; }
+        .post-content ul, .post-content ol { margin: 0 0 30px 30px; font-size: 1.1rem; color: #374151; }
+        .post-content li { margin-bottom: 10px; }
 
-    /* ── Navigation (Interconnected) ─────────────────────────────────── */
-    .nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      height: 72px;
-      z-index: 100;
-      background: rgba(2,2,2,0.8);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border-dim);
-    }
+        /* --- Footer --- */
+        footer { border-top: 1px solid var(--border-color); padding: 50px 0; background-color: var(--card-bg); color: var(--text-muted); font-size: 0.95rem; }
+        .footer-content { text-align: center; }
+        .footer-contact { margin-bottom: 20px; display: flex; gap: 20px; justify-content: center; font-weight: 600; }
+        .footer-contact a { color: var(--text-main); }
+        .footer-contact a:hover { color: var(--accent); }
 
-    .nav-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 100%;
-    }
-
-    .nav-brand {
-      display: flex;
-      flex-direction: column;
-      text-decoration: none;
-    }
-    .nav-brand-title {
-      font-size: 1.15rem;
-      font-weight: 800;
-      color: var(--text-primary);
-      letter-spacing: -0.02em;
-    }
-    .nav-brand-title span { color: var(--accent-blue); }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-      list-style: none;
-    }
-    .nav-links a, .nav-links button {
-      background: none;
-      border: none;
-      font-family: var(--font-sans);
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text-secondary);
-      text-decoration: none;
-      cursor: pointer;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover, .nav-links button:hover { color: var(--text-primary); }
-
-    .nav-cta {
-      display: inline-flex;
-      align-items: center;
-      padding: 6px 14px;
-      border-radius: 8px;
-      background: var(--bg-raised);
-      border: 1px solid var(--border-dim);
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-primary);
-      text-decoration: none;
-    }
-
-    .nav-toggle {
-      display: none;
-      background: none;
-      border: none;
-      color: var(--text-primary);
-      cursor: pointer;
-      flex-direction: column;
-      gap: 5px;
-    }
-    .nav-toggle span { width: 22px; height: 2px; background: currentColor; }
-
-    /* Mobile Drawer */
-    .nav-mobile {
-      display: none;
-      position: fixed;
-      top: 72px; left: 0; right: 0;
-      background: var(--bg-void);
-      border-bottom: 1px solid var(--border-dim);
-      padding: 1rem 1.5rem;
-      flex-direction: column;
-      gap: 12px;
-      z-index: 99;
-    }
-    .nav-mobile button, .nav-mobile a {
-      background: none; border: none; text-align: left;
-      font-family: var(--font-sans); font-size: 15px;
-      color: var(--text-secondary); text-decoration: none; padding: 6px 0;
-    }
-    .nav-mobile.open { display: flex; }
-
-    /* ── Immersive Hero Section ───────────────────────────────────────── */
-    .hero {
-      padding: 140px 0 60px;
-      background: radial-gradient(circle at 50% 0%, rgba(41,151,255,0.06) 0%, transparent 60%);
-    }
-    .hero-eyebrow {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--accent-blue);
-      margin-bottom: 1rem;
-    }
-    .hero-headline {
-      font-size: clamp(2.2rem, 5vw, 4.2rem);
-      font-weight: 800;
-      line-height: 1.1;
-      letter-spacing: -0.03em;
-      margin-bottom: 1.5rem;
-    }
-    .hero-headline span {
-      background: linear-gradient(90deg, var(--text-primary), var(--text-muted));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .hero-sub {
-      font-size: clamp(1rem, 1.8vw, 1.15rem);
-      color: var(--text-secondary);
-      max-width: 680px;
-      margin-bottom: 3rem;
-    }
-
-    /* ── Professional Professional Matrix End-Block ───────────────────── */
-    .profile-banner {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1rem;
-      padding: 1.5rem;
-      background: var(--bg-raised);
-      border: 1px solid var(--border-dim);
-      border-radius: 12px;
-      margin-bottom: 2rem;
-    }
-    .profile-item {
-      display: flex;
-      flex-direction: column;
-    }
-    .profile-label {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      letter-spacing: 0.05em;
-    }
-    .profile-value {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-top: 2px;
-    }
-    .profile-value a { color: var(--accent-blue); text-decoration: none; }
-
-    /* ── Main Workspace ───────────────────────────────────────────────── */
-    .site-main { padding: 40px 0 80px; }
-
-    /* ── Render Content Layout For Individual Posts ───────────────────── */
-    .article-wrap {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 120px 0 60px;
-    }
-    .article-title {
-      font-size: clamp(1.8rem, 4vw, 2.8rem);
-      font-weight: 800;
-      line-height: 1.15;
-      letter-spacing: -0.02em;
-      margin-bottom: 1.5rem;
-    }
-    .article-meta-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-bottom: 1.5rem;
-      border-bottom: 1px solid var(--border-dim);
-      margin-bottom: 2.5rem;
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-    .article-body { font-size: 16px; color: var(--text-primary); }
-    .article-body p { margin-bottom: 1.5rem; color: #d1d1d6; }
-    .article-body h2 { font-size: 1.5rem; font-weight: 700; margin: 2.5rem 0 1rem; letter-spacing: -0.01em; }
-    .article-body table { width: 100%; border-collapse: collapse; margin: 2rem 0; font-size: 14px; }
-    .article-body th, .article-body td { padding: 12px; border: 1px solid var(--border-dim); text-align: left; }
-    .article-body th { background: var(--bg-raised); color: var(--text-primary); font-weight: 600; }
-
-    /* ── Footer ───────────────────────────────────────────────────────── */
-    .site-footer {
-      background: var(--bg-base);
-      border-top: 1px solid var(--border-dim);
-      padding: 4rem 0 2rem;
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-    .footer-grid {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 2rem;
-      padding-bottom: 3rem;
-    }
-    .footer-brand { max-width: 320px; }
-    .footer-brand-title { font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; }
-    .footer-links-col { display: flex; flex-direction: column; gap: 8px; }
-    .footer-links-col strong { color: var(--text-primary); margin-bottom: 4px; display: block; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em;}
-    .footer-links-col a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
-    .footer-links-col a:hover { color: var(--text-primary); }
-    .footer-bottom {
-      border-top: 1px solid var(--border-dim);
-      padding-top: 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    /* ── Responsive Viewports Breakpoints ───────────────────────────────── */
-    @media (max-width: 768px) {
-      .nav-links, .nav-cta { display: none; }
-      .nav-toggle { display: flex; }
-      .hero { padding-top: 110px; }
-    }
-  </style>
+        /* --- Mobile Responsiveness --- */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.4rem; }
+            .nav-links { gap: 15px; font-size: 0.85rem; }
+            .site-logo { font-size: 1.2rem; }
+            .post-content h1 { font-size: 2.2rem; }
+        }
+    </style>
 </head>
 <body>
 
-  <header class="nav">
-    <div class="container nav-inner">
-      <a href="{{ '/' | relative_url }}" class="nav-brand">
-        <span class="nav-brand-title">Engineering Tech<span>.</span>Insight</span>
-      </a>
-
-      <ul class="nav-links">
-        <li><a href="{{ '/' | relative_url }}">Home</a></li>
-        <li><button onclick="filterCategoryFromNav('Laptop')">Laptops</button></li>
-        <li><button onclick="filterCategoryFromNav('Mobile')">Mobiles</button></li>
-        <li><button onclick="filterCategoryFromNav('AI Tool')">AI Tools</button></li>
-      </ul>
-
-      <div class="nav-cta">
-        <a href="https://instagram.com/mshivam03" target="_blank" style="color:inherit; text-decoration:none;">@mshivam03</a>
-      </div>
-
-      <button class="nav-toggle" id="navToggle" aria-label="Menu">
-        <span></span><span style="margin: 4px 0;"></span><span></span>
-      </button>
-    </div>
-
-    <nav class="nav-mobile" id="navMobile">
-      <a href="{{ '/' | relative_url }}">Home</a>
-      <button onclick="filterCategoryFromNav('Laptop')">Laptops</button>
-      <button onclick="filterCategoryFromNav('Mobile')">Mobiles</button>
-      <button onclick="filterCategoryFromNav('AI Tool')">AI Tools</button>
-      <a href="https://instagram.com/mshivam03" target="_blank">Instagram ↗</a>
-    </nav>
-  </header>
-
-  {% if page.show_hero %}
-  <section class="hero">
-    <div class="container">
-      <div class="hero-eyebrow">Core Architecture & Diagnostics</div>
-      <h1 class="hero-headline">Engineering<br /><span>Tech Insight</span></h1>
-      <p class="hero-sub">
-        Deep-dive hardware analysis, complete benchmarking, and cost-to-performance evaluations written from a rigorous computer science perspective. No generic fluff.
-      </p>
-
-      <div class="profile-banner">
-        <div class="profile-item">
-          <span class="profile-label">Lead Reviewer</span>
-          <span class="profile-value">Shivam Kumar</span>
+    <header>
+        <div class="container nav-content">
+            <a href="{{ '/' | relative_url }}" class="site-logo">Shivam's<span>.</span>TechBlog</a>
+            <ul class="nav-links">
+                <li><a href="{{ '/' | relative_url }}">Home</a></li>
+                <li><a href="mailto:mshiva18806@gmail.com">Contact</a></li>
+                <li><a href="https://instagram.com/mshivam03" target="_blank">Instagram</a></li>
+            </ul>
         </div>
-        <div class="profile-item">
-          <span class="profile-label">Department & Node</span>
-          <span class="profile-value">B.Tech CSE Student, LPU</span>
+    </header>
+
+    {% if page.url == "/" %}
+    <section class="hero">
+        <div class="container">
+            <h1 class="hero-title">Engineering <span>Tech Insight</span></h1>
+            <p class="hero-subtitle">B.Tech (CSE) Student at LPU, sharing automated AI analysis on latest gadgets and software tools.</p>
+            <div class="hero-meta">
+                <span>📍 LPU, Jalandhar</span>
+                <span>👨‍💻 Shivam Kumar</span>
+            </div>
         </div>
-        <div class="profile-item">
-          <span class="profile-label">Communications Matrix</span>
-          <span class="profile-value"><a href="mailto:mshiva18806@gmail.com">mshiva18806@gmail.com</a></span>
+    </section>
+    {% endif %}
+
+    <main class="container {% if page.layout == 'post' %}post-content{% endif %}">
+        {{ content }}
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-contact">
+                <a href="mailto:mshiva18806@gmail.com">mshiva18806@gmail.com</a>
+                <a href="https://instagram.com/mshivam03" target="_blank">@mshivam03</a>
+            </div>
+            <p>&copy; 2026 Shivam Kumar. All rights reserved.</p>
+            <p style="font-size: 0.8rem; margin-top: 10px;">Automated with ❤️ using Gemini AI & GitHub Actions.</p>
         </div>
-      </div>
-    </div>
-  </section>
-  {% endif %}
+    </footer>
 
-  <main class="container site-main" id="mainContent">
-    {{ content }}
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <div class="footer-brand-title">Engineering Tech Insight</div>
-          <p>Rigorous consumer technology evaluations managed by Shivam Kumar, specializing in architecture optimization and machine learning nodes at Lovely Professional University.</p>
-        </div>
-        <div class="footer-links-col">
-          <strong>Indexes</strong>
-          <button onclick="filterCategoryFromNav('Laptop')" style="background:none; border:none; color:var(--text-muted); cursor:pointer; text-align:left;">Laptops Grid</button>
-          <button onclick="filterCategoryFromNav('Mobile')" style="background:none; border:none; color:var(--text-muted); cursor:pointer; text-align:left;">Mobiles Grid</button>
-          <button onclick="filterCategoryFromNav('AI Tool')" style="background:none; border:none; color:var(--text-muted); cursor:pointer; text-align:left;">AI Tools Registry</button>
-        </div>
-        <div class="footer-links-col">
-          <strong>Coordinates</strong>
-          <a href="https://instagram.com/mshivam03" target="_blank">Instagram</a>
-          <a href="mailto:mshiva18806@gmail.com">Secure Email</a>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <span>© {{ 'now' | date: '%Y' }} Shivam Kumar. All rights reserved.</span>
-        <span>LPU Campus System Deployment</span>
-      </div>
-    </div>
-  </footer>
-
-  <script>
-    /* Mobile nav drawer trigger */
-    const navToggle = document.getElementById('navToggle');
-    const navMobile = document.getElementById('navMobile');
-    if (navToggle && navMobile) {
-      navToggle.addEventListener('click', () => {
-        navMobile.classList.toggle('open');
-      });
-    }
-
-    /* Navigation Interconnected Link Filtering Engine */
-    function filterCategoryFromNav(categoryName) {
-      // Close mobile menu if open
-      if (navMobile) navMobile.classList.remove('open');
-      
-      // If user is on an internal single post page, redirect to home with parameters
-      if (window.location.pathname !== '/' && !window.location.pathname.endsWith('index.html')) {
-        window.location.href = "{{ '/' | relative_url }}?cat=" + encodeURIComponent(categoryName);
-        return;
-      }
-
-      // Smooth scroll directly to the workspace content grid
-      const mainSection = document.getElementById('mainContent');
-      if (mainSection) {
-        mainSection.scrollIntoView({ behavior: 'smooth' });
-      }
-
-      // Find the corresponding filter button on the home page pills layout and click it
-      setTimeout(() => {
-        const targetPill = document.querySelector(`.filter-pill[data-cat="${categoryName}"]`);
-        if (targetPill) {
-          targetPill.click();
-        }
-      }, 350);
-    }
-  </script>
 </body>
 </html>
