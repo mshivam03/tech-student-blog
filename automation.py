@@ -19,7 +19,7 @@ log = logging.getLogger(__name__)
 GOOGLE_SHEET_NAME     = "TechBlogData"
 GITHUB_REPO_PATH      = os.environ.get("GITHUB_REPOSITORY") 
 GEMINI_API_KEY        = os.environ.get("GEMINI_API_KEY")
-GITHUB_TOKEN          = os.environ.get("GH_TOKEN")
+GITHUB_TOKEN          = os.environ.get("GITHUB_TOKEN")
 GOOGLE_CREDENTIALS    = os.environ.get("GOOGLE_CREDENTIALS")
 
 def get_google_sheets_client():
