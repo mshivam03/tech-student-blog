@@ -11,7 +11,6 @@ Dependencies (pip install):
 
 import os
 import json
-import base64
 import logging
 from datetime import datetime, timezone
 
@@ -29,26 +28,12 @@ logging.basicConfig(
 log = logging.getLogger(__name__)
 
 
-# ── Configuration (all values come from GitHub Actions Secrets / env vars) ───
+# ── Configuration (SAFE WAY: All values come securely from GitHub Secrets) ───
 GEMINI_API_KEY        = os.environ.get("GEMINI_API_KEY")
-GITHUB_TOKEN          = "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"
-GITHUB_REPO           = "shivamkumar/tech-student-blog"
+GITHUB_TOKEN          = os.environ.get("GITHUB_TOKEN")
+GITHUB_REPO           = os.environ.get("GITHUB_REPOSITORY") # GitHub automatically sets this
 GOOGLE_SHEET_NAME     = "TechBlogData"
-
-# Directly injected service account JSON as a raw string
-GCLOUD_SA_JSON = """{
-  "type": "service_account",
-  "project_id": "techautomation-497213",
-  "private_key_id": "04df3d5ba7d71fbdc79ebd11ecfda68f4cb86fb3",
-  "private_key": "-----BEGIN PRIVATE KEY-----\\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDEAp04vuKNj1AV\\nJ8VaK/7yGfyKuUrvlpCOtQ7kA4xdlAxeIQU9Bi/xURZImbClMAhA36b7Nj2hD0CJ\\nbYxgbo++OuAeJ5/udFzB77isqG+3UVS7G/XkaBIlpFE9W0UQBdomAYYD5xZeUTJM\\njiI414ADcvwJ/6lYEpxJ32+AYbghTUBQeAa6D/Tt3Q7/kzNYMOTgAb3AFnp4+Zxl\\nhntHFUl+9AgpI9igpy6Vn6/cCOwHDEo8axhzmo3xdl9GMwpwq93x3IxWcI49P5vY\\nAAfK1SucZxesWOfksgQnHMcJ+uPogilzUfRrhn89dKWAlyb1jHAFNlr4Jb5JyeVc\\ne5pc28KfAgMBAAECggEABkEOsvxR1NiuFZBR/9LbWbs4vFTPZ/48X4+1/J8cwyTR\\nqwE2HkcMj/azFZ7w+XXv++Egl7xlbANFRZbjinVZcpiE644x6eH4AbVV7A01zCCB\\n6eepYvlrg5yO5DyXMAmXw9J7OOdBmfUD4oulQORzY7WVoCk/Rh2is5XrBCqNPWOG\\naNimFmpnlXqsoj18v+p8yvQqIeKm6HZwo8c1rT6rWje0LpkPfz2vEHqh5ksjx0dV\\nLkDRx3Z3bzDx55tYxW06afmw6oXdHUicEvD+251qWaiBTRE6NLS3rOI2anpldaf1\\nxJuhe/EibrDgdDzJtmm2y/L0e1p17gJoqFm+wWwErQKBgQDs680oJ0dL+3HqVGVn\\nHaB5z1oBO1aNbAUjp2SEyQ6BkMl6g+GYqjY7psEBve4STvZjb46N6WA09/wld6MB\\nd10JJWLc4VZ3Cr39NeNrDwo1FJhHEE4G4e8lSy3uWB+fOAWw78byuLxPcI0mMrtp\\nzVKLQvt5ozBnP/u+LdbPVDpwRQKBgQDTy2w1eVhcX3qEn1zJAjU/kBp5N1favxmT\\n9Is9jXI7hjjBJiEADq70s1XsYQqSUcM1myUu8d28BThscntGUtYd2TTu7q7qmtUw\\n8pvojJoPHctkWo38VOeTT7XiAAXBxoIAWMSxkDDLB8n2lGfrh/VJRePoHPTjm9b1\\nl+c4KohPkwKBgQDY1QaylSA/fiVH3W3g7dCNKySos/IHBLG/a9gnXwuTsTt0kXbL\\nDh0MgxVpzrYws2v0nYjOgKS4Va3DbLcXBHN1h23v0Zwc3wv6znMQ7HbfFbY4c8e1\\nrNn+O8wRsz1drxwmT4y5YDGYUt4b85pqvqupIOie7qfCF2EDMVjD78Z8MQKBgHJx\\niG44vLNlcFm7lzKSu9016+g2LIXqH1MgoCDJjsF1XLOZ+9kBFi7pvPM22LSJ89bC\\nl8wPK8bOd1e6YLx2RHbqiLzXQrNIqQyC/BYj65dhfScj+3cvFdc3CkwtwO6dal/v\\nl5FvHb6H3e0c8i6GT9ehKW6iPv3Cltwsked6rB97AoGBAJ0JQppzry8dZeX7uXZi\\nCJC6+aBsaXbWWLdx8Nd/wo16I12q8DdXu7EpNBvGWrL8+PXWu6n5hyrGNO65EAWH\\n8Sj0ZSgyD1bGxLKKgBk8nSWBkbn8oU74I3Fv+y1zhDziift+QV1b8iS3JWyZSqkE\\ncUYfpLE8FFcZp9Ql9qmwJQMQ\\n-----END PRIVATE KEY-----\\n\",
-  "client_email": "sheets-bot@techautomation-497213.iam.gserviceaccount.com",
-  "client_id": "106633983891945045840",
-  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-  "token_uri": "https://oauth2.googleapis.com/token",
-  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/sheets-bot%40techautomation-497213.iam.gserviceaccount.com",
-  "universe_domain": "googleapis.com"
-}"""
+GCLOUD_SA_JSON        = os.environ.get("GOOGLE_CREDENTIALS") # Securely loaded from Secrets
 
 
 # ── Category → SEO prompt templates ──────────────────────────────────────────
@@ -128,11 +113,7 @@ def get_sheet_client() -> gspread.Client:
 
 
 def fetch_pending_row(client: gspread.Client) -> tuple[gspread.Worksheet, int, str, str] | None:
-    """
-    Open the sheet, find the first row with Status == 'Pending'.
-    Returns (worksheet, row_index, keyword, category) or None if nothing pending.
-    Row index is 1-based (as used by gspread).
-    """
+    """Find the first row with Status == 'Pending'."""
     log.info("Opening Google Sheet: '%s' ...", GOOGLE_SHEET_NAME)
     spreadsheet = client.open(GOOGLE_SHEET_NAME)
     worksheet   = spreadsheet.sheet1
@@ -168,7 +149,7 @@ def build_prompt(keyword: str, category: str) -> str:
 
 
 def generate_article(keyword: str, category: str) -> str:
-    """Call Gemini API and return the generated article body (Markdown, no front-matter)."""
+    """Call Gemini API and return the generated article body."""
     log.info("Initialising Gemini client ...")
     client = genai.Client(api_key=GEMINI_API_KEY)
 
@@ -186,10 +167,7 @@ def generate_article(keyword: str, category: str) -> str:
 
 
 def build_markdown_file(keyword: str, category: str, article_body: str) -> tuple[str, str]:
-    """
-    Wrap the article body in Jekyll-compatible YAML front-matter.
-    Returns (filename, full_markdown_content).
-    """
+    """Wrap the article body in Jekyll-compatible YAML front-matter."""
     today      = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     slug       = keyword.lower().replace(" ", "-")
     slug       = "".join(c if c.isalnum() or c == "-" else "" for c in slug)
@@ -213,10 +191,7 @@ def build_markdown_file(keyword: str, category: str, article_body: str) -> tuple
 
 
 def publish_to_github(filename: str, content: str) -> None:
-    """
-    Commit the Markdown file to the _posts/ directory of the GitHub Pages repo.
-    Creates the file only — never overwrites existing posts.
-    """
+    """Commit the Markdown file to the _posts/ directory."""
     log.info("Connecting to GitHub repository: '%s' ...", GITHUB_REPO)
     gh   = Github(GITHUB_TOKEN)
     repo = gh.get_repo(GITHUB_REPO)
@@ -228,7 +203,7 @@ def publish_to_github(filename: str, content: str) -> None:
         repo.get_contents(file_path)
         raise FileExistsError(
             f"File '{file_path}' already exists in the repository. "
-            "Skipping to prevent overwrite."
+            f"Skipping to prevent overwrite."
         )
     except GithubException as exc:
         if exc.status == 404:
@@ -264,6 +239,10 @@ def main() -> None:
     log.info("  SEO Content Engine — starting run")
     log.info("═" * 60)
 
+    if not GEMINI_API_KEY or not GITHUB_TOKEN or not GCLOUD_SA_JSON:
+        log.error("❌ Critical Secrets are missing in GitHub Actions environment variables!")
+        return
+
     sheet_client = get_sheet_client()
     result = fetch_pending_row(sheet_client)
 
@@ -273,10 +252,14 @@ def main() -> None:
 
     worksheet, row_index, keyword, category = result
 
-    article_body = generate_article(keyword, category)
-    filename, full_content = build_markdown_file(keyword, category, article_body)
-    publish_to_github(filename, full_content)
-    mark_as_published(worksheet, row_index)
+    try:
+        article_body = generate_article(keyword, category)
+        filename, full_content = build_markdown_file(keyword, category, article_body)
+        publish_to_github(filename, full_content)
+        mark_as_published(worksheet, row_index)
+    except Exception as e:
+        log.error(f"❌ Execution failed during generation/publishing: {e}")
+        return
 
     log.info("═" * 60)
     log.info("  Run complete. Post published: %s", filename)
