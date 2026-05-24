@@ -9,6 +9,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    # GitHub Actions ki Node.js deprecation warning ko bypass karne ke liye
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
     steps:
     - name: Checkout Repository Code
       uses: actions/checkout@v4
@@ -25,7 +29,6 @@ jobs:
 
     - name: Run Automation Script
       env:
-        # Yahan hum GitHub Secrets ko Python environment ke sath link kar rahe hain
         GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
