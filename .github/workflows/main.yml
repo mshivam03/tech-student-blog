@@ -9,7 +9,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    # GitHub Actions ki Node.js deprecation warning ko bypass karne ke liye
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
@@ -30,7 +29,7 @@ jobs:
     - name: Run Automation Script
       env:
         GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }} # Yahan humne GH_TOKEN link kar diya hai
         GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
       run: |
         python automation.py
